@@ -276,6 +276,27 @@ graph LR
 
    *obs*: sempre Usar `elseif` para situações que precisam de mais de uma condição, ou seja, fazer encadeamento das condições.
 
+   - Uso **Errado** do if
+
+   Não Fazer o Encadeamento de condicionais
+
+   ```php
+
+   if($valorCompra > 200) {
+      $valorFinal = $valorCompra*0.85;
+   }
+   if($valorCompra > 100) {
+      $valorFinal = $valorCompra*0.90;
+   }
+   if($valorCompra < 100) {
+      $valorFinal = $valorCompra*0.95;
+   }
+
+   ```
+
+
+
+   
    #### Operadores Ternários
    Um atalho para a estrutura condicional `if/else`, normalmente escrrito em uma unica linha de código
 
@@ -290,6 +311,7 @@ $idade = 20;
 //O formato é : (cindição) ? verdadeiro : falso
 
 $status = ($idade >= 18) ? "Maior de idade" : "Menor de idade";
+$status2 = ($idade<18>) ? "Criança" : ($idade<60>) ? "Adulto" : "Idoso";
 
 ```
 
@@ -307,5 +329,24 @@ B --> E[Ação 3]
 B --> F[Ação 4]
 B --> G[...]
 B --> H[Ação default]
+
+```
+
+```php
+
+$diaSemana = date("Week"); //pega o Dia da Semana em Formato Numérico
+
+//transformar dia da Semana em Formato de texto (Domingo, Segunda,...)
+
+$nomeDiaSemana = match($diaSemana){
+  "0" => "Domingo",
+  "1" => "Segunda",
+  "2" => "Terça",
+  "3" => "Quarta",
+  "4" => "Quinta",
+  "5" => "Sexta",
+  "6" => "Sábado",
+  defalt => "Dia Inválido"
+};
 
 ```
