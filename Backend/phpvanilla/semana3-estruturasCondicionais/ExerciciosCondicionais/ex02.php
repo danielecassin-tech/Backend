@@ -1,5 +1,5 @@
 <?php 
-declare(strict_types=1)
+declare(strict_types=1);
 
 //Exercício 2: O operador da 1 linha (E-commerce)
 

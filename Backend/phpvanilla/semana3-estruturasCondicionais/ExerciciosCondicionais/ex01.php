@@ -12,7 +12,7 @@ $idade = 30;
 
 if($idade<16){
     echo "Voto Proibido";
-}elseif($iade<18 || $idade >=70){
+}elseif($idade<18 || $idade >=70){
     echo "Voto Facultativo";
 }else{
     echo "Voto Obrigatoria";

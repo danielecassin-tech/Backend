@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-$peso = 85.5;
+$peso = 28.5;
 $altura = 1.75;
 
 $imc = $peso / ($altura * $altura); 

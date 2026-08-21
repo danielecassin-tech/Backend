@@ -1,8 +1,7 @@
-<?php 
-declare(strict_types=1)
+<?php
+declare(strict_types=1);
 
-//Exercício 4: Autenticação de Sistema (Login Múltiplo)
-
+// Exercício 4: Autenticação de Sistema (Login Múltiplo)
 $senhaSistema = "SenhaSegura123";
 $cargoUsuario = "Auxiliar";
 if (($cargoUsuario ==="Diretor" || $cargoUsuario === "Gerente") && $senhaSistema === "SenhaSegura123") {
@@ -10,5 +9,7 @@ if (($cargoUsuario ==="Diretor" || $cargoUsuario === "Gerente") && $senhaSistema
 } else {
     echo "Acesso Negado";
 }
+
+
 
 ?>

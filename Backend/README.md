@@ -350,3 +350,76 @@ $nomeDiaSemana = match($diaSemana){
 };
 
 ```
+
+---
+
+##### Laços e Repetição
+
+Um laço de repetição faz com que, um bloco de códigos de rede várias vezes, até que uma condição mande parar.
+
+- O laço `while` (Enquanto)
+
+Ele verifica se a condição é verdadeira ANTES de entrar no laço. Ideal quando você nâo sabe quantas vezes vai rodar o laço.
+
+```mermaid
+
+flowchart LR
+  
+   A[Início] --> B{Condição}
+   B --true--> C[Executa o Laço]
+   C --> B
+   B --false--> D[Interrompe o Laço]
+
+   ```
+
+   Exemplo: Jogo de Adivinhação de um n Secreto
+
+   ```php
+
+   $numeroSecreto = 7;
+
+   $tentativas = 0;
+
+   while($tentativa != $numeSecreto){
+    echo "Tente Novamente"
+    //vou pegar um n aleatório entre 1 e 10
+    $tentativa = rand(1,10);
+   }
+
+   echo "Acertou Misevi!!! o n secreto é $numeroSecreto";
+
+   ``` 
+
+   - O laço `do-while` (Faça-Enquanto)
+
+   A diferença é que ele executa o bloco pelo menos uma vez, mesmo que a condição seja falsa desde o início, pois ele só pergunta no final
+
+   ```mermaid
+
+   flowchaRt LR
+
+   A([Início]) --> B[Executar Ação]
+   B --> C{Condição}
+   C --true--> B
+   C --false--> D([Fim])
+
+   ```
+
+   exemplo: Jogo de Adivinhação
+
+   ```php
+
+$numeroSecreto = rand(1,10);
+
+do {
+    $tentativa = rand(1,10); //Simular um palpite aleatório
+
+    if($tentativa == $numeroSecreto){
+        echo "Parabéns, Acertou!!!";
+    }
+  
+} while ($tentativa != $numeroSecreto);
+
+   ```
+
+obs:Uso ideal do `do-while`, Menus de sistema ou sistema de solicitação de dados, sistemas interativos; 
