@@ -881,3 +881,78 @@ Antes do PHP processar qualquer informação, precisamos coletar informações n
 
 
    #### Como os Métodos Funcionam no PHP(`$_Get`, `$_POST`, `$_SERVER`) - As SuperGlobais
+
+   As variaveis SuperGlobais são arrays internos pré-definidos que estão sempre acessiveis em qualquer parte do script php, sem precisar ser declaradas.
+
+   - **$_GET**: Armazena dados passados pela URL via parâmetros de consulta (query string);
+   - **$_POST**: Recolhe dados enviados por formulários usando método HTTP POST.
+   - **$_SERVER**: Contém informações sobre o servidor, ambiente e caminhos de script
+
+   **Porque usamos `??` para obter dados da SuperGlobal???**
+
+   Usamos o Operedor na Nulidade (Coalescência Nula) para verificar se o valor da variável não é `null`, se caso for `null`atribuimos um valor para evitar erros no script.
+
+   **Exemplo de Uso**:
+
+   Nprimeira vez que uma página é aberta, o fomulário ainda não foi enviado. Portanto, a chave não existi no array.
+
+   ```php
+   $nome = $_POST["nome"];
+   // se escrever desta forma, o código pode gerar um aviso de erro.
+
+   // a forma correta de escrita é
+   $nome = $_POST["nome"] ?? "";
+   //se $_POST["nome"] não existir, use uma string vazia.
+
+   //outra forma de verificar nulidade é usando if/else
+   if(isset($_POST["nome"])){
+      $nome = $_POST["nome"];
+   }else{
+      $nome = "";
+   }
+   ```
+
+   #### Validação de Dados no Backend é obrigatória
+
+   Muitos desenvolvedores iniciantes acresitam que colocar atributos com `required`, `type=email` ou `min=0`na <tag> do HTML é suficiente para proteger o sistema. **Isso é Ilusão**. Sempre devemos fazer validações de dados no código Backend. As validações no Backend devem acontecer sempre antes do processamento de qualquer dado recebido pelo usuário.
+
+   #### Funções Nativas Essenciais para Limpeza e Validação de Dados.
+
+Abaixo está uma tabela resumida das funções nativas do PHP usadas com frequência para limpar, verificar e validar entradas de formulário.
+
+| Função | Descrição | Quando usar | Exemplo simples |
+| :--- | :--- | :--- | :--- |
+| `trim($valor)` | Remove espaços no início e no fim da string | Limpar texto digitado pelo usuário | `$nome = trim($_POST['nome'] ?? '');` |
+| `htmlspecialchars($valor, ENT_QUOTES, 'UTF-8')` | Converte caracteres especiais em entidades HTML seguras | Exibir dados na tela sem risco de XSS | `echo htmlspecialchars($_POST['nome'] ?? '', ENT_QUOTES, 'UTF-8');` |
+| `filter_var($valor, FILTER_VALIDATE_EMAIL)` | Valida formato de e-mail | Campos de e-mail | `filter_var($email, FILTER_VALIDATE_EMAIL)` |
+| `filter_var($valor, FILTER_VALIDATE_INT)` | Verifica se o valor é inteiro válido | Idade, código, quantidade | `filter_var($_POST['idade'] ?? '', FILTER_VALIDATE_INT)` |
+| `filter_var($valor, FILTER_VALIDATE_FLOAT)` | Verifica se o valor é número decimal válido | Preço, peso, altura, salário | `filter_var($_POST['preco'] ?? '', FILTER_VALIDATE_FLOAT)` |
+| `isset($variavel)` | Verifica se uma variável existe e não é `null` | Garantir que o campo foi enviado | `if (isset($_POST['nome'])) { ... }` |
+| `empty($valor)` | Verifica se o valor está vazio | Campos obrigatórios | `if (empty($_POST['senha'])) { ... }` |
+| `strlen($valor)` | Retorna o tamanho da string | Exigir mínimo ou máximo de caracteres | `if (strlen($senha) < 6) { ... }` |
+| `in_array($valor, $lista, true)` | Verifica se o valor pertence a uma lista permitida | `select`, `radio`, opções válidas | `in_array($categoria, ['A','B','C'], true)` |
+| `is_numeric($valor)` | Confirma se o valor é numérico | Validação de número | `if (is_numeric($_POST['quantidade'])) { ... }` |
+| `preg_match($padrao, $valor)` | Valida por expressão regular | CPF, CEP, telefone, senha forte | `preg_match('/^\d{5}-\d{3}$/', $cep)` |
+| `filter_input(INPUT_POST, 'campo', FILTER_SANITIZE_SPECIAL_CHARS)` | Captura e limpa dados da requisição | Ler entradas com segurança | `$nome = filter_input(INPUT_POST, 'nome', FILTER_SANITIZE_SPECIAL_CHARS);` |
+
+>obs: use `htmlapecialchars() ao exibir valor em HTML => converte caracteres especiais em entidades correspondentes em HTML, evitandi que o código seja interpretado erradamente pwlo navegador. É usado principalmente na segurança web, para evitar ataques Cross-Site-Scriprinf(XSS).
+
+#### Preservação de Estado em Formulários (*Sticky Form*)
+
+A ténica do **Sticky Form** consiste em imprimir de volta o valor no atributo "value" do input, os dados que o usuário acaba de digitar, os valores são desenvolvido aos inputs, caso ocorra algum erro de validação de dados no envio.
+
+**Exemplo de Uso:**
+
+```php
+<div class="campo">
+    <label for="nome">Nome Completo</label>
+    <input type="text" id="nome" name="nome" 
+            value="<?= htmlspecialchars($dadosFormulario['nome'] ?? '') ?>"
+            class="<?= isset($erro['nome']) ? 'input-erro' : '' ?>">
+    <?php if (isset($erro["nome"])): ?>
+        <span class="erro-texto"><?= $erro["nome"] ?></span>
+    <?php endif; ?>
+</div>
+```
+
+
