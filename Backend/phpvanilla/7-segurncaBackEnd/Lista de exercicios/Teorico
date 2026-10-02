@@ -1,0 +1,25 @@
+#### Parte A – Exercícios Teóricos de Fixação
+1. Conceituação OWASP:
+XSS significa Cross-Site Scripting. É uma vulnerabilidade que permite que um atacante insira códigos maliciosos em uma página da internet. Ela é considerada uma vulnerabilidade do lado do cliente porque o código acaba sendo executado no navegador do usuário. Mesmo assim, o Back-End deve ajudar a prevenir esse problema, tratando e validando corretamente os dados recebidos e exibidos.
+
+2. Reflected vs Stored:
+O XSS Refletido acontece quando o código malicioso é enviado para a aplicação e retorna imediatamente para a página, geralmente por meio de uma URL ou formulário. Já o XSS Stored acontece quando o código malicioso é armazenado no servidor, como em um banco de dados, e depois é exibido para outros usuários. O Stored XSS pode ter um impacto maior porque o código pode atingir várias pessoas que acessarem o conteúdo armazenado.
+
+3. Mecanismo de Escapamento:
+A função htmlspecialchars transforma caracteres especiais do HTML em entidades que podem ser exibidas como texto. Por exemplo, o caractere menor que é transformado em “<” e o maior que em “>”. Dessa forma, quando o navegador recebe esses valores, ele entende que são caracteres de texto e não uma tag HTML. Por isso, um código como uma tag de script não é interpretado e executado pelo navegador.
+
+4. Flags de Proteção:
+A flag ENT_QUOTES faz com que a função htmlspecialchars também proteja as aspas simples e duplas. Isso é importante principalmente quando um dado do usuário é colocado dentro de atributos HTML, como o atributo value de um campo input. Se as aspas não forem tratadas corretamente, um usuário malicioso poderia tentar fechar o atributo e inserir outros comandos ou códigos HTML.
+
+5. Anti-Alucinação PHP:
+O filtro FILTER_SANITIZE_STRING não deve ser utilizado em projetos modernos com PHP 8.3 porque ele foi depreciado no PHP 8.1 e removido no PHP 8.3. Por isso, em versões atuais do PHP devemos utilizar outras formas de validação e tratamento de dados de acordo com cada situação. Por exemplo, para validar um e-mail podemos utilizar o filtro FILTER_VALIDATE_EMAIL e, para exibir textos com segurança no HTML, podemos utilizar htmlspecialchars.
+
+6. Validação de E-mail:
+A função empty verifica apenas se o campo está vazio ou possui algum conteúdo. Ela não verifica se o texto realmente possui formato de e-mail. Já o FILTER_VALIDATE_EMAIL verifica se o valor possui uma estrutura válida de endereço de e-mail. Portanto, para validar um e-mail, FILTER_VALIDATE_EMAIL é mais adequado do que apenas verificar se o campo está preenchido.
+
+7. Roubo de Sessão:
+Um atacante pode aproveitar uma vulnerabilidade XSS para executar JavaScript no navegador de uma pessoa que esteja logada. Caso o cookie de sessão esteja acessível ao JavaScript, o atacante pode tentar obter esse cookie e utilizá-lo para tentar se passar pelo usuário. Uma das formas de proteção é utilizar cookies com a configuração HttpOnly, que impede o acesso ao cookie por meio do JavaScript.
+
+8. Segurança em Camadas:
+Utilizar strip_tags na entrada não elimina a necessidade de utilizar htmlspecialchars na saída porque são mecanismos diferentes. O strip_tags pode remover algumas tags HTML, mas não é uma proteção completa para todos os contextos. Já o htmlspecialchars protege o momento em que o conteúdo é colocado no HTML, fazendo com que caracteres especiais sejam interpretados como texto. Por isso, é importante utilizar várias camadas de segurança, principalmente validando os dados e fazendo o escape correto na saída.
+
