@@ -18,3 +18,4 @@ try {
     echo "Confira servidor, porta, banco, usuário e senha.\n";
     exit(1);
 }
+?>

@@ -6,7 +6,7 @@ function conectar(): PDO
 {
     $host = '127.0.0.1';
     $porta = '5432';
-    $banco = 'senai_dev';
+    $banco = 'banco.sql';
     $usuario = 'postgres';
     $senha = '123456';
 
