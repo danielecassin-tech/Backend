@@ -15,8 +15,9 @@ try {
     if ($conexao1 === $conexao2) {
         echo "Singleton funcionando: mesma instância!\n";
     } else {
-        echo "Foram obtidas instâncias diferentes.\n";
+        echo "As instâncias são diferentes.\n";
     }
-} catch (PDOException $erro) {
-    exit("Não foi possível conectar ao banco.\n");
+} catch (Throwable $erro) {
+    echo "Não foi possível testar: verifique a conexão.\n";
+    exit(1);
 }

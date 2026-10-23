@@ -5,12 +5,18 @@ require_once __DIR__ . '/ConexaoBanco.php';
 
 const ARQUIVO_CONFIG = __DIR__ . '/config/database.ini';
 
+// Registra mensagens com níveis permitidos.
 function registrarLog(string $nivel, string $mensagem): void
 {
     $niveis = ['INFO', 'WARNING', 'ERROR'];
 
     if (!in_array($nivel, $niveis, true)) {
         throw new InvalidArgumentException('Nível de log inválido.');
+    }
+
+    $pasta = __DIR__ . '/logs';
+    if (!is_dir($pasta)) {
+        mkdir($pasta, 0770, true);
     }
 
     $linha = sprintf(
@@ -21,11 +27,7 @@ function registrarLog(string $nivel, string $mensagem): void
         PHP_EOL
     );
 
-    file_put_contents(
-        __DIR__ . '/logs/sistema.log',
-        $linha,
-        FILE_APPEND | LOCK_EX
-    );
+    file_put_contents($pasta . '/sistema.log', $linha, FILE_APPEND | LOCK_EX);
 }
 
 try {
@@ -33,8 +35,9 @@ try {
     $pdo->query('SELECT 1');
 
     registrarLog('INFO', 'Conexão com PostgreSQL realizada.');
-    echo "Conexão realizada com sucesso.\n";
-} catch (PDOException $erro) {
-    registrarLog('ERROR', 'Falha na conexão: ' . $erro->getMessage());
-    echo "Não foi possível conectar ao banco de dados.\n";
+    echo "Conexão OK. Log INFO registrado.\n";
+} catch (Throwable $erro) {
+    registrarLog('ERROR', 'Falha na conexão com PostgreSQL.');
+    echo "Conexão falhou. Log ERROR registrado.\n";
+    exit(1);
 }
