@@ -157,8 +157,23 @@ Criar o arquivo `composer.json`na raiz do projeto
 
 ### Criar o Arquivo `config/database.ini`
 
+Envelopamento de Dados sensíveis
+
 #### Criar o Arquivo Conexão (`src/core/ConexaoBanco`)
+
+Omesmo sempre em formato Singleton (um obj por vez)
 
 ### Criar a Classe de Looger do sistema  (`src/Core/Looger.php`)
 
+Identificar erros e permitir correções corretas, erros detalhados para administradores do sistema
+
+## Montagem da Arquitetura MVC (Model - View - Controller)
+
+### Modelagem do Sistema o Model (`src/Models`)
+
+#### Usuários (`src/Models/Usuarios.php`)
+
+#### Produtos (`src/Models/Produtos.php`)
+
+#### Movimentação (`src/Models/Movimentacao.php`)
 
